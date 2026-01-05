@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Moiz Janjua | Operations Architecture</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Manrope:wght@200;300;400;500;600;700;800&family=Syncopate:wght@400;700&display=swap');
+
+        :root {
+            --tesla-red: #E31937;
+            --cyber-steel: #E0E0E0;
+            --matte-black: #111111;
+            --glass-panel: rgba(255, 255, 255, 0.03);
+            --border-panel: rgba(255, 255, 255, 0.1);
+        }
+
+        body {
+            font-family: 'Manrope', sans-serif;
+            background-color: #000;
+            color: #fff;
+            overflow-x: hidden;
+        }
+
+        .font-brand { font-family: 'Syncopate', sans-serif; }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: #000; }
+        ::-webkit-scrollbar-thumb { background: #333; border-radius: 3px; }
+
+        /* Animations */
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(40px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .animate-up {
+            animation: fadeUp 1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+            opacity: 0;
+        }
+
+        .delay-100 { animation-delay: 0.1s; }
+        .delay-200 { animation-delay: 0.2s; }
+        .delay-300 { animation-delay: 0.3s; }
+
+        /* Bento Grid Card Styling */
+        .bento-card {
+            background: var(--glass-panel);
+            border: 1px solid var(--border-panel);
+            backdrop-filter: blur(20px);
+            transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .bento-card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: radial-gradient(800px circle at var(--mouse-x) var(--mouse-y), rgba(255,255,255,0.06), transparent 40%);
+            opacity: 0;
+            transition: opacity 0.5s;
+            pointer-events: none;
+        }
+
+        .bento-card:hover::before { opacity: 1; }
+        .bento-card:hover { border-color: rgba(255,255,255,0.3); transform: translateY(-2px); }
+
+        /* Hero Text Texture */
+        .cyber-text {
+            background: linear-gradient(to bottom, #fff 40%, #666 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* Nav */
+        nav {
+            background: rgba(0,0,0,0.8);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .stat-val {
+            font-feature-settings: "tnum" on, "lnum" on;
+        }
+    </style>
+</head>
+<body class="bg-black selection:bg-white selection:text-black">
+
+    <!-- Navbar -->
+    <nav class="fixed top-0 w-full z-50 h-16 flex items-center justify-between px-6 md:px-12">
+        <div class="flex items-center gap-2">
+            <svg class="w-24 h-auto text-white" viewBox="0 0 342 35" fill="currentColor">
+               <!-- Abstract Tesla-like Logo Text representation -->
+               <text x="0" y="25" font-family="Syncopate" font-weight="bold" font-size="20" letter-spacing="2">TESLA</text>
+            </svg>
+            <div class="h-4 w-px bg-white/30 mx-2"></div>
+            <span class="text-[10px] font-bold tracking-[0.3em] text-white/60">OPS CANDIDATE</span>
+        </div>
+        <div class="hidden md:flex gap-8 text-[11px] font-bold tracking-[0.2em] text-white/80">
+            <a href="#specs" class="hover:text-white transition-colors">SPECS</a>
+            <a href="#model-x" class="hover:text-white transition-colors">EXPERIENCE</a>
+            <a href="#software" class="hover:text-white transition-colors">SOFTWARE</a>
+            <a href="#contact" class="hover:text-white transition-colors">CONTACT</a>
+        </div>
+        <a href="#contact" class="px-6 py-2 border border-white/20 text-[10px] font-bold tracking-widest hover:bg-white hover:text-black transition-all uppercase">
+            Schedule Interview
+        </a>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="relative min-h-screen flex flex-col justify-center px-6 md:px-12 pt-20 overflow-hidden">
+        <!-- Abstract Background -->
+        <div class="absolute inset-0 z-0 opacity-40">
+            <img src="https://images.unsplash.com/photo-1542468002-3696f5341d72?q=80&w=2960&auto=format&fit=crop" class="w-full h-full object-cover grayscale" alt="texture">
+            <div class="absolute inset-0 bg-gradient-to-t from-black via-black/80 to-transparent"></div>
+        </div>
+
+        <div class="relative z-10 max-w-7xl mx-auto w-full grid grid-cols-1 lg:grid-cols-12 gap-12 items-end">
+            <div class="lg:col-span-8">
+                <div class="text-[12px] font-bold tracking-[0.4em] text-red-500 mb-6 animate-up">OPERATIONAL ARCHITECT</div>
+                <h1 class="text-6xl md:text-8xl lg:text-9xl font-brand font-bold leading-none tracking-tighter mb-8 animate-up delay-100 cyber-text">
+                    MOIZ<br>JANJUA
+                </h1>
+                <p class="text-xl md:text-2xl text-gray-400 font-light max-w-2xl animate-up delay-200 leading-relaxed">
+                    Scaling high-pressure logistics with <span class="text-white font-medium">first principles thinking</span>. 
+                    Merging operational rigor (Amazon/Gopuff) with strategic product design (Fintech).
+                </p>
+            </div>
+            
+            <!-- Quick Stats -->
+            <div class="lg:col-span-4 flex flex-col gap-6 animate-up delay-300">
+                <div class="flex justify-between items-end border-b border-white/20 pb-4">
+                    <span class="text-[10px] tracking-widest text-gray-500">DISPATCH EFFICIENCY</span>
+                    <span class="text-4xl font-light stat-val">+17%</span>
+                </div>
+                <div class="flex justify-between items-end border-b border-white/20 pb-4">
+                    <span class="text-[10px] tracking-widest text-gray-500">TEAM SIZE</span>
+                    <span class="text-4xl font-light stat-val">35+</span>
+                </div>
+                <div class="flex justify-between items-end border-b border-white/20 pb-4">
+                    <span class="text-[10px] tracking-widest text-gray-500">LOCATION</span>
+                    <span class="text-xl font-light text-right">WATFORD, UK</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Scroll Indicator -->
+        <div class="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 opacity-50 animate-bounce">
+            <span class="text-[10px] tracking-widest">SCROLL</span>
+            <i class="fa-solid fa-chevron-down"></i>
+        </div>
+    </section>
+
+    <!-- Experience Grid (Bento Style) -->
+    <section id="specs" class="py-32 px-6 md:px-12 bg-black relative">
+        <div class="max-w-7xl mx-auto">
+            <div class="mb-20 flex flex-col md:flex-row justify-between items-end gap-6">
+                <div>
+                    <h2 class="text-4xl md:text-5xl font-brand font-bold mb-4">PERFORMANCE<br>SPECS</h2>
+                    <p class="text-gray-500 max-w-md">Data-driven operational history. Optimized for scale and reliability.</p>
+                </div>
+                <div class="text-right hidden md:block">
+                    <div class="text-[10px] tracking-[0.3em] text-red-500 mb-2">CURRENT STATUS</div>
+                    <div class="text-xl font-bold">AVAILABLE IMMEDIATELY</div>
+                </div>
+            </div>
+
+            <!-- Bento Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-6 lg:grid-cols-12 gap-4 auto-rows-[300px]">
+                
+                <!-- Amazon Card (Large) -->
+                <div class="bento-card md:col-span-6 lg:col-span-8 p-8 flex flex-col justify-between group" onmousemove="handleMouseMove(event)">
+                    <div class="flex justify-between items-start">
+                        <div class="px-3 py-1 border border-white/20 text-[10px] font-bold tracking-widest uppercase rounded-full">Logistics</div>
+                        <i class="fa-brands fa-amazon text-4xl text-white/20 group-hover:text-white transition-colors"></i>
+                    </div>
+                    <div>
+                        <div class="text-[10px] tracking-widest text-gray-400 mb-2">2023 — 2024</div>
+                        <h3 class="text-3xl font-bold mb-2">AREA MANAGER</h3>
+                        <div class="text-sm font-bold text-gray-500 mb-4">AMAZON UK & CENTRAL EUROPE</div>
+                        <p class="text-gray-400 text-sm leading-relaxed max-w-lg">
+                            Commanded a unit of 35 specialists. Engineered a 13% productivity increase via Lean Six Sigma methodologies. Improved on-time dispatch by 17% across 8 Fulfillment Centers.
+                        </p>
+                    </div>
+                    <!-- Decorative Graphic -->
+                    <div class="absolute right-0 bottom-0 w-64 h-32 bg-gradient-to-t from-red-900/20 to-transparent blur-3xl rounded-full pointer-events-none"></div>
+                </div>
+
+                <!-- Metrics Card (Small) -->
+                <div class="bento-card md:col-span-3 lg:col-span-4 p-8 flex flex-col justify-center items-center text-center" onmousemove="handleMouseMove(event)">
+                    <div class="text-[10px] tracking-[0.2em] text-gray-500 mb-4">ACCURACY RATING</div>
+                    <div class="text-7xl font-light tracking-tighter mb-2">99.9<span class="text-2xl">%</span></div>
+                    <div class="text-xs text-red-500 font-bold uppercase tracking-widest">Target Achieved</div>
+                </div>
+
+                <!-- Traction Fintech (Tall) -->
+                <div class="bento-card md:col-span-3 lg:col-span-4 row-span-2 p-8 flex flex-col justify-between" onmousemove="handleMouseMove(event)">
+                    <div class="flex justify-between items-start">
+                         <div class="px-3 py-1 border border-white/20 text-[10px] font-bold tracking-widest uppercase rounded-full">Fintech</div>
+                         <i class="fa-solid fa-chart-line text-2xl text-white/20"></i>
+                    </div>
+                    <div>
+                        <div class="text-[10px] tracking-widest text-gray-400 mb-2">2025 (LATE)</div>
+                        <h3 class="text-2xl font-bold mb-1">ONBOARDING OPS</h3>
+                        <div class="text-xs font-bold text-gray-500 mb-6">TRACTION FINTECH | LONDON</div>
+                        <ul class="space-y-4 text-sm text-gray-400">
+                            <li class="flex gap-3 items-start">
+                                <span class="w-1 h-1 bg-white mt-2 rounded-full flex-shrink-0"></span>
+                                Managed 90+ daily B2B client integrations.
+                            </li>
+                            <li class="flex gap-3 items-start">
+                                <span class="w-1 h-1 bg-white mt-2 rounded-full flex-shrink-0"></span>
+                                Diagnosed complex data discrepancies.
+                            </li>
+                            <li class="flex gap-3 items-start">
+                                <span class="w-1 h-1 bg-white mt-2 rounded-full flex-shrink-0"></span>
+                                Bridged gap between ops and dev teams.
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Gopuff (Medium) -->
+                <div class="bento-card md:col-span-6 lg:col-span-8 p-8 flex flex-col justify-between" onmousemove="handleMouseMove(event)">
+                     <div class="flex justify-between items-start">
+                        <div class="px-3 py-1 border border-white/20 text-[10px] font-bold tracking-widest uppercase rounded-full">High-Speed Ops</div>
+                        <i class="fa-solid fa-bolt text-3xl text-white/20"></i>
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-end">
+                        <div>
+                            <div class="text-[10px] tracking-widest text-gray-400 mb-2">2025 (EARLY)</div>
+                            <h3 class="text-2xl font-bold mb-1">NIGHT SUPERVISOR</h3>
+                            <div class="text-xs font-bold text-gray-500">GOPUFF | HACKNEY</div>
+                        </div>
+                        <p class="text-sm text-gray-400 leading-relaxed">
+                            Managed end-to-end night cycle logistics. Maintained 100% SLA fulfillment during peak surges through real-time labor optimization and rider coordination.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Gorillas (Medium) -->
+                <div class="bento-card md:col-span-6 lg:col-span-4 p-8 flex flex-col justify-between" onmousemove="handleMouseMove(event)">
+                     <div class="flex justify-between items-start">
+                        <div class="px-3 py-1 border border-white/20 text-[10px] font-bold tracking-widest uppercase rounded-full">Growth</div>
+                        <i class="fa-solid fa-box text-3xl text-white/20"></i>
+                    </div>
+                    <div>
+                        <div class="text-[10px] tracking-widest text-gray-400 mb-2">2021 — 2023</div>
+                        <h3 class="text-xl font-bold mb-1">OPS SUPERVISOR</h3>
+                        <div class="text-xs font-bold text-gray-500 mb-4">GORILLAS | LONDON</div>
+                        <div class="text-3xl font-light text-white mb-1">+7.8%</div>
+                        <div class="text-[10px] text-gray-500 tracking-widest">KPI UPLIFT</div>
+                    </div>
+                </div>
+
+                 <!-- Tresmark (Medium) -->
+                 <div class="bento-card md:col-span-6 lg:col-span-4 p-8 flex flex-col justify-between" onmousemove="handleMouseMove(event)">
+                     <div class="flex justify-between items-start">
+                        <div class="px-3 py-1 border border-white/20 text-[10px] font-bold tracking-widest uppercase rounded-full">Design</div>
+                        <i class="fa-solid fa-pen-ruler text-3xl text-white/20"></i>
+                    </div>
+                    <div>
+                        <div class="text-[10px] tracking-widest text-gray-400 mb-2">2019 — 2021</div>
+                        <h3 class="text-xl font-bold mb-1">LEAD UX DESIGNER</h3>
+                        <div class="text-xs font-bold text-gray-500 mb-4">TRESMARK</div>
+                        <p class="text-xs text-gray-400">Architected TresmarkeFX interbank currency platform.</p>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Education & Skills (Technical Sheet) -->
+    <section id="software" class="py-24 px-6 md:px-12 bg-zinc-900 border-t border-white/10">
+        <div class="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-3 gap-20">
+            <div>
+                <h2 class="text-3xl font-brand font-bold mb-8">SYSTEM<br>UPGRADES</h2>
+                <div class="space-y-6">
+                    <div class="flex items-center gap-4">
+                        <i class="fa-brands fa-google text-2xl text-gray-400"></i>
+                        <div>
+                            <div class="text-sm font-bold">Google UX Professional</div>
+                            <div class="text-[10px] text-gray-500 tracking-widest uppercase">Certification</div>
+                        </div>
+                    </div>
+                    <div class="flex items-center gap-4">
+                        <i class="fa-solid fa-leaf text-2xl text-green-500/80"></i>
+                        <div>
+                            <div class="text-sm font-bold">Lean Six Sigma Green Belt</div>
+                            <div class="text-[10px] text-gray-500 tracking-widest uppercase">Process Optimization</div>
+                        </div>
+                    </div>
+                    <div class="flex items-center gap-4">
+                        <i class="fa-brands fa-amazon text-2xl text-orange-400/80"></i>
+                        <div>
+                            <div class="text-sm font-bold">Situational Leadership II</div>
+                            <div class="text-[10px] text-gray-500 tracking-widest uppercase">Management</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="lg:col-span-2">
+                 <h2 class="text-3xl font-brand font-bold mb-8">EDUCATION</h2>
+                 <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                     <div class="p-6 border border-white/10 bg-black">
+                         <div class="text-[10px] text-red-500 font-bold tracking-widest mb-2">UNITED KINGDOM</div>
+                         <h3 class="text-xl font-bold mb-1">Coventry University</h3>
+                         <p class="text-sm text-gray-400">M.Sc. International Business Management</p>
+                     </div>
+                     <div class="p-6 border border-white/10 bg-black">
+                         <div class="text-[10px] text-red-500 font-bold tracking-widest mb-2">PAKISTAN</div>
+                         <h3 class="text-xl font-bold mb-1">University of Central Punjab</h3>
+                         <p class="text-sm text-gray-400">M.Com Accounting & Finance</p>
+                     </div>
+                 </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer / Contact -->
+    <section id="contact" class="py-32 px-6 text-center bg-black relative overflow-hidden">
+        <!-- Background Glow -->
+        <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-red-600/20 blur-[120px] rounded-full pointer-events-none"></div>
+
+        <div class="relative z-10">
+            <h2 class="text-4xl md:text-6xl font-brand font-bold mb-6">READY TO DEPLOY</h2>
+            <p class="text-gray-400 mb-12 max-w-xl mx-auto">
+                Operations expert configured for the Tesla ecosystem. 
+                Based in Watford, UK. Available immediately.
+            </p>
+            
+            <a href="mailto:moizjanjua@icloud.com" class="inline-block px-12 py-4 bg-white text-black font-bold tracking-[0.2em] text-sm hover:bg-gray-200 transition-colors uppercase">
+                Initiate Contact
+            </a>
+
+            <div class="mt-20 flex justify-center gap-8">
+                <a href="https://linkedin.com/in/moizjanjua/" class="text-gray-500 hover:text-white transition-colors uppercase text-xs tracking-widest">LinkedIn</a>
+                <a href="#" class="text-gray-500 hover:text-white transition-colors uppercase text-xs tracking-widest">CV PDF</a>
+                <span class="text-gray-700 uppercase text-xs tracking-widest">+44 7853 204148</span>
+            </div>
+            
+            <div class="mt-12 text-[10px] text-gray-800 tracking-[0.4em]">
+                TESLA OPERATIONS PORTFOLIO © 2026
+            </div>
+        </div>
+    </section>
+
+    <script>
+        // Mouse movement effect for Bento Cards
+        function handleMouseMove(e) {
+            const card = e.currentTarget;
+            const rect = card.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+            
+            card.style.setProperty('--mouse-x', `${x}px`);
+            card.style.setProperty('--mouse-y', `${y}px`);
+        }
+
+        // Smooth Scroll
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+    </script>
+</body>
+</html>
