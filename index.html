@@ -22,6 +22,7 @@
             background-color: var(--tesla-dark);
             color: #ffffff;
             overflow-x: hidden;
+            width: 100%;
         }
 
         .font-tech { font-family: 'Orbitron', sans-serif; }
@@ -75,6 +76,7 @@
             position: absolute;
             width: 600px;
             height: 600px;
+            max-width: 100vw;
             background: radial-gradient(circle, rgba(232,33,39,0.15) 0%, rgba(0,0,0,0) 70%);
             top: 50%;
             left: 50%;
@@ -92,7 +94,7 @@
         }
         
         .details-container.open {
-            max-height: 500px;
+            max-height: 600px;
             opacity: 1;
             margin-top: 1rem;
             padding-top: 1rem;
@@ -114,6 +116,27 @@
         .btn-expand:hover {
             color: #fff;
         }
+
+        /* Toolkit Specific */
+        .toolkit-card {
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .toolkit-card.active {
+            background: rgba(232, 33, 39, 0.1);
+            border-color: var(--tesla-red);
+        }
+        .toolkit-detail {
+            display: none;
+            animation: fadeIn 0.4s ease forwards;
+        }
+        .toolkit-detail.active {
+            display: block;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
     </style>
 </head>
 <body class="selection:bg-white selection:text-black">
@@ -121,7 +144,6 @@
     <!-- Navigation -->
     <nav class="fixed top-0 w-full z-50 h-16 flex items-center justify-between px-6 lg:px-12 transition-all">
         <div class="flex items-center gap-4">
-            <!-- Tesla Logo in Nav -->
             <div class="text-white font-tech font-black text-xl tracking-[0.4em]">TESLA</div>
             <div class="h-4 w-px bg-white/20"></div>
             <span class="text-[10px] font-bold tracking-[0.25em] text-white/50 uppercase hidden sm:block">Operations Profile</span>
@@ -130,6 +152,7 @@
         <div class="hidden md:flex items-center gap-8 text-[11px] font-bold tracking-[0.15em] text-white/70">
             <a href="#overview" class="hover:text-white transition-colors">OVERVIEW</a>
             <a href="#performance" class="hover:text-white transition-colors">EXPERIENCE</a>
+            <a href="#toolkit" class="hover:text-white transition-colors">TOOLKIT</a>
             <a href="#specs" class="hover:text-white transition-colors">SPECS</a>
         </div>
 
@@ -140,7 +163,6 @@
 
     <!-- Hero Section -->
     <section id="overview" class="relative min-h-screen flex items-center justify-center px-6 pt-20 overflow-hidden">
-        
         <div class="absolute inset-0 z-0">
             <img src="https://images.unsplash.com/photo-1617788138017-80ad40651399?q=80&w=2000&auto=format&fit=crop" 
                  class="w-full h-full object-cover opacity-30 grayscale" 
@@ -150,9 +172,7 @@
         </div>
 
         <div class="relative z-10 max-w-7xl w-full grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-0 items-end pb-20">
-            
             <div class="lg:col-span-8">
-                <!-- Personalization Badge -->
                 <div class="animate-drift inline-flex items-center gap-3 bg-white/5 border border-white/10 px-4 py-2 rounded-full mb-8 backdrop-blur-md">
                     <span class="w-2 h-2 bg-red-600 rounded-full animate-pulse"></span>
                     <div class="text-[10px] font-bold tracking-widest uppercase text-white/80">
@@ -165,14 +185,14 @@
                 </h1>
                 
                 <p class="text-lg md:text-xl text-gray-400 font-light max-w-2xl leading-relaxed animate-drift delay-200">
-                    Performance-driven Operations Manager with extensive experience in leading high-growth teams across logistics and fintech. Proven track record in <span class="text-white font-medium">Amazon</span> fulfillment and scalable service operations.
+                    Senior operations professional specializing in designing and running complex day-to-day systems. Proven track record at <span class="text-white font-medium">Amazon</span> and fintech startups in streamlining KPIs and decision-making through data accuracy.
                 </p>
             </div>
 
             <div class="lg:col-span-4 flex flex-col gap-6 animate-drift delay-300 border-l border-white/10 pl-0 lg:pl-10">
                 <div class="group">
                     <div class="text-[10px] text-gray-500 tracking-[0.2em] mb-1">EFFICIENCY UPLIFT</div>
-                    <div class="text-4xl font-light text-white group-hover:text-red-500 transition-colors duration-300">17%</div>
+                    <div class="text-4xl font-light text-white group-hover:text-red-500 transition-colors duration-300">13%</div>
                 </div>
                 <div class="group">
                     <div class="text-[10px] text-gray-500 tracking-[0.2em] mb-1">TEAM SIZE</div>
@@ -184,11 +204,6 @@
                 </div>
             </div>
         </div>
-
-        <div class="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 opacity-30 animate-bounce">
-            <span class="text-[9px] tracking-[0.3em]">DRIVE</span>
-            <i class="fa-solid fa-chevron-down text-xs"></i>
-        </div>
     </section>
 
     <!-- Experience Grid -->
@@ -196,7 +211,7 @@
         <div class="bg-glow"></div>
         <div class="max-w-7xl mx-auto relative z-10">
             <div class="flex flex-col md:flex-row justify-between items-end mb-16 border-b border-white/10 pb-6">
-                <h2 class="text-3xl md:text-4xl font-cta uppercase">Deployment History</h2>
+                <h2 class="text-3xl md:text-4xl font-cta uppercase">Employment History</h2>
                 <div class="text-right mt-4 md:mt-0">
                     <div class="text-[10px] text-red-600 tracking-[0.3em] font-bold mb-1">STATUS</div>
                     <div class="text-sm font-bold uppercase">Ready for interview</div>
@@ -204,159 +219,233 @@
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 auto-rows-auto">
-
-                <!-- Amazon -->
+                <!-- Traction Fintech -->
                 <div class="glass-panel col-span-1 md:col-span-2 lg:col-span-2 p-8 flex flex-col justify-between group">
                     <div class="flex justify-between items-start mb-4">
-                        <span class="px-2 py-1 bg-white/10 text-[9px] font-bold tracking-widest uppercase">Amazon UK & EU</span>
-                        <i class="fa-brands fa-amazon text-4xl text-white/10 group-hover:text-white transition-colors"></i>
+                        <span class="px-2 py-1 bg-white/10 text-[9px] font-bold tracking-widest uppercase">Traction Fintech | London</span>
+                        <i class="fa-solid fa-building-columns text-4xl text-white/10 group-hover:text-blue-400 transition-colors"></i>
                     </div>
                     <div>
-                        <div class="text-[10px] text-gray-500 tracking-widest mb-2">MAR 2023 — FEB 2024</div>
-                        <h3 class="text-3xl font-bold mb-2">Area Manager</h3>
+                        <div class="text-[10px] text-gray-500 tracking-widest mb-2">JUNE 2025 — NOV 2025</div>
+                        <h3 class="text-3xl font-bold mb-2">Onboarding Officer</h3>
                         <p class="text-sm text-gray-400 leading-relaxed max-w-md">
-                            Engineered a 13% productivity increase via Lean Six Sigma and automated reporting within Amazon's fast-paced fulfillment network.
+                            Redesigned the error-reporting workflow, cutting check time by ~90% and freeing 300+ hours of team capacity per year.
                         </p>
+                        
+                        <div class="mt-4" onclick="toggleDetails('traction-details', this)">
+                            <span class="btn-expand">View Specs <i class="fa-solid fa-plus text-[8px]"></i></span>
+                        </div>
+                        <div id="traction-details" class="details-container">
+                            <ul class="text-xs text-gray-400 space-y-2 list-disc list-inside">
+                                <li>Owned operational onboarding and daily regulatory reporting for 90+ EU & UK clients.</li>
+                                <li>Used SQL and Excel to investigate errors and improve timeliness/accuracy.</li>
+                                <li>Acted as key point of contact for clients, simplifying complex regulatory concepts.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Metrics -->
+                <div class="glass-panel col-span-1 lg:col-span-1 p-6 flex flex-col justify-center items-center text-center">
+                    <div class="text-[9px] text-gray-500 tracking-[0.2em] mb-2">TIME RECOVERED</div>
+                    <div class="text-5xl font-light text-white">300h</div>
+                    <div class="text-[9px] text-red-500 font-bold uppercase mt-2 tracking-widest">Annual Capacity</div>
+                </div>
+
+                <!-- Amazon -->
+                <div class="glass-panel col-span-1 md:col-span-2 lg:col-span-1 p-6 flex flex-col justify-between group">
+                    <div class="flex justify-between items-start">
+                        <span class="px-2 py-1 bg-white/10 text-[9px] font-bold tracking-widest uppercase">Amazon | UK & EU</span>
+                        <i class="fa-brands fa-amazon text-2xl text-white/10 group-hover:text-white transition-colors"></i>
+                    </div>
+                    <div class="mt-8">
+                        <div class="text-[10px] text-gray-500 tracking-widest mb-1">DEC 2023 — JULY 2024</div>
+                        <h3 class="text-xl font-bold mb-1">Area Manager</h3>
+                        <div class="text-[10px] font-bold text-gray-400 mb-3">ECFT | Tilbury</div>
                         
                         <div class="mt-4" onclick="toggleDetails('amazon-details', this)">
                             <span class="btn-expand">View Specs <i class="fa-solid fa-plus text-[8px]"></i></span>
                         </div>
-
                         <div id="amazon-details" class="details-container">
                             <ul class="text-xs text-gray-400 space-y-2 list-disc list-inside">
-                                <li>Led 35 specialists in a zero-error, high-volume operational environment.</li>
-                                <li>Optimized dispatch efficiency by 17% across 8 Regional Fulfillment Centers.</li>
-                                <li>Implemented data-driven performance management tools.</li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Scale Metric -->
-                <div class="glass-panel col-span-1 lg:col-span-1 p-6 flex flex-col justify-center items-center text-center">
-                    <div class="text-[9px] text-gray-500 tracking-[0.2em] mb-2">MANAGEMENT SCALE</div>
-                    <div class="text-5xl font-light text-white">8 FCs</div>
-                    <div class="text-[9px] text-red-500 font-bold uppercase mt-2 tracking-widest">Regional Scope</div>
-                </div>
-
-                <!-- Gopuff -->
-                <div class="glass-panel col-span-1 md:col-span-2 lg:col-span-1 p-6 flex flex-col justify-between group">
-                    <div class="flex justify-between items-start">
-                        <span class="px-2 py-1 bg-white/10 text-[9px] font-bold tracking-widest uppercase">Instant Commerce</span>
-                        <i class="fa-solid fa-bolt text-2xl text-white/10 group-hover:text-blue-400 transition-colors"></i>
-                    </div>
-                    <div class="mt-8">
-                        <div class="text-[10px] text-gray-500 tracking-widest mb-1">2025 (EARLY)</div>
-                        <h3 class="text-xl font-bold mb-1">Night Ops Supervisor</h3>
-                        <div class="text-[10px] font-bold text-gray-400 mb-3">GOPUFF | HACKNEY</div>
-                        
-                        <div class="mt-4" onclick="toggleDetails('gopuff-details', this)">
-                            <span class="btn-expand">View Specs <i class="fa-solid fa-plus text-[8px]"></i></span>
-                        </div>
-
-                        <div id="gopuff-details" class="details-container">
-                            <ul class="text-xs text-gray-400 space-y-2 list-disc list-inside">
-                                <li>Owned end-to-end night cycle operations and labor optimization.</li>
-                                <li>Maintained 100% SLA fulfillment through peak night surges.</li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- KPI Metric -->
-                <div class="glass-panel col-span-1 lg:col-span-1 p-6 flex flex-col justify-center items-center text-center">
-                    <div class="text-[9px] text-gray-500 tracking-[0.2em] mb-2">SERVICE LEVEL</div>
-                    <div class="text-5xl font-light text-white">100%</div>
-                    <div class="text-[9px] text-red-500 font-bold uppercase mt-2 tracking-widest">Peak Performance</div>
-                </div>
-
-                <!-- Traction -->
-                <div class="glass-panel col-span-1 md:col-span-2 lg:col-span-2 p-8 flex flex-col justify-between group">
-                    <div class="flex justify-between items-start">
-                        <span class="px-2 py-1 bg-white/10 text-[9px] font-bold tracking-widest uppercase">Fintech</span>
-                        <i class="fa-solid fa-building-columns text-2xl text-white/10 group-hover:text-white transition-colors"></i>
-                    </div>
-                    <div class="mt-6">
-                        <div class="flex flex-col md:flex-row gap-4 items-baseline">
-                            <div class="flex-1">
-                                <div class="text-[10px] text-gray-500 tracking-widest mb-1">2024 — 2025</div>
-                                <h3 class="text-xl font-bold mb-1">Onboarding Ops</h3>
-                                <div class="text-[10px] font-bold text-gray-400">TRACTION FINTECH</div>
-                            </div>
-                            <p class="text-xs text-gray-400 flex-1 leading-relaxed border-l border-white/10 pl-4">
-                                Managed high-volume B2B onboarding, supporting 90+ daily clients with technical integration.
-                            </p>
-                        </div>
-
-                        <div class="mt-4" onclick="toggleDetails('traction-details', this)">
-                            <span class="btn-expand">View Specs <i class="fa-solid fa-plus text-[8px]"></i></span>
-                        </div>
-
-                        <div id="traction-details" class="details-container">
-                            <ul class="text-xs text-gray-400 space-y-2 list-disc list-inside">
-                                <li>Resolved complex data discrepancies to bridge Ops and Dev gaps.</li>
-                                <li>Guided business clients through high-quality technical setup.</li>
+                                <li>Led 35 Central Flow Process Control Specialists across UK and Europe.</li>
+                                <li>Increased productivity by 13% using SQL/Excel deep-dives into outbound flow.</li>
+                                <li>Designed network-wide initiatives for peak readiness and shipment improvements.</li>
                             </ul>
                         </div>
                     </div>
                 </div>
 
                 <!-- Gorillas -->
-                <div class="glass-panel col-span-1 md:col-span-1 lg:col-span-2 p-6 flex flex-col justify-between hover:bg-white/5 transition-colors">
+                <div class="glass-panel col-span-1 md:col-span-1 lg:col-span-2 p-8 flex flex-col justify-between hover:bg-white/5 transition-colors">
                     <div class="flex justify-between items-start">
                         <div>
                             <div class="text-[10px] text-gray-500 tracking-widest mb-1">2021 — 2023</div>
-                            <h3 class="text-lg font-bold">Ops Supervisor</h3>
-                            <div class="text-[10px] font-bold text-gray-400">GORILLAS | LONDON</div>
+                            <h3 class="text-2xl font-bold">Operations Supervisor</h3>
+                            <div class="text-[10px] font-bold text-gray-400 uppercase">Chelsea & South Kensington Dark Store</div>
                         </div>
-                        <i class="fa-solid fa-box text-2xl text-white/20"></i>
+                        <i class="fa-solid fa-truck-fast text-2xl text-white/20"></i>
                     </div>
-                    
-                    <div class="mt-4" onclick="toggleDetails('gorillas-details', this)">
-                        <span class="btn-expand">View Specs <i class="fa-solid fa-plus text-[8px]"></i></span>
-                    </div>
-
-                    <div id="gorillas-details" class="details-container">
-                        <ul class="text-xs text-gray-400 space-y-2 list-disc list-inside">
-                            <li>Improved KPIs by 7.8% across fast-delivery operations.</li>
-                            <li>Trained and managed a diverse fleet of 100+ associates.</li>
-                        </ul>
+                    <div class="mt-4">
+                        <p class="text-sm text-gray-400 mb-4">Averaged 7.86% KPI improvement across Service Level, Promise Time, and Complaint management.</p>
+                        <div onclick="toggleDetails('gorillas-details', this)">
+                            <span class="btn-expand">View Specs <i class="fa-solid fa-plus text-[8px]"></i></span>
+                        </div>
+                        <div id="gorillas-details" class="details-container">
+                            <ul class="text-xs text-gray-400 space-y-2 list-disc list-inside">
+                                <li>Partnered with Central Ops and riders to test delivery reliability tweaks.</li>
+                                <li>Managed real-time dispatch and fleet operations in high-demand zones.</li>
+                            </ul>
+                        </div>
                     </div>
                 </div>
 
+                <!-- Founders Experience -->
+                <div class="glass-panel col-span-1 md:col-span-1 lg:col-span-2 p-8 flex flex-col justify-between group border-red-900/30">
+                    <div class="flex justify-between items-start">
+                        <span class="px-2 py-1 bg-red-600/20 text-red-500 text-[9px] font-bold tracking-widest uppercase">Founder</span>
+                        <i class="fa-solid fa-rocket text-2xl text-white/10 group-hover:text-red-500 transition-colors"></i>
+                    </div>
+                    <div class="mt-6">
+                        <h3 class="text-2xl font-bold">Split Trip</h3>
+                        <p class="text-xs text-gray-400 leading-relaxed mt-2">
+                            Launched a road-trip cost-splitting platform, growing to 5,000+ signups. Managed remote dev team of 7.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Management Toolkit (Skills) Section -->
+    <section id="toolkit" class="py-24 px-4 md:px-8 lg:px-12 bg-neutral-950 relative overflow-hidden">
+        <div class="max-w-7xl mx-auto">
+            <h2 class="text-2xl font-cta uppercase mb-12 border-l-4 border-red-600 pl-4 tracking-[0.4em]">Management Toolkit</h2>
+            
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+                <!-- Skill Icons Grid -->
+                <div class="lg:col-span-7 grid grid-cols-2 md:grid-cols-3 gap-4">
+                    <div class="glass-panel p-6 toolkit-card active" onclick="showToolkitDetail('data-analysis', this)">
+                        <i class="fa-solid fa-chart-line text-xl mb-3 text-red-500"></i>
+                        <span class="text-[10px] font-bold uppercase tracking-widest block">Data Analysis</span>
+                    </div>
+                    <div class="glass-panel p-6 toolkit-card" onclick="showToolkitDetail('reporting', this)">
+                        <i class="fa-solid fa-file-invoice text-xl mb-3 text-white/40"></i>
+                        <span class="text-[10px] font-bold uppercase tracking-widest block">Reporting</span>
+                    </div>
+                    <div class="glass-panel p-6 toolkit-card" onclick="showToolkitDetail('process', this)">
+                        <i class="fa-solid fa-gears text-xl mb-3 text-white/40"></i>
+                        <span class="text-[10px] font-bold uppercase tracking-widest block">Process Design</span>
+                    </div>
+                    <div class="glass-panel p-6 toolkit-card" onclick="showToolkitDetail('sql-excel', this)">
+                        <i class="fa-solid fa-database text-xl mb-3 text-white/40"></i>
+                        <span class="text-[10px] font-bold uppercase tracking-widest block">SQL & Excel</span>
+                    </div>
+                    <div class="glass-panel p-6 toolkit-card" onclick="showToolkitDetail('leadership', this)">
+                        <i class="fa-solid fa-users text-xl mb-3 text-white/40"></i>
+                        <span class="text-[10px] font-bold uppercase tracking-widest block">Leadership</span>
+                    </div>
+                    <div class="glass-panel p-6 toolkit-card" onclick="showToolkitDetail('ux-design', this)">
+                        <i class="fa-solid fa-pen-nib text-xl mb-3 text-white/40"></i>
+                        <span class="text-[10px] font-bold uppercase tracking-widest block">UX/UI Design</span>
+                    </div>
+                </div>
+
+                <!-- Details Display -->
+                <div class="lg:col-span-5 bg-white/5 border border-white/10 p-8 rounded-sm">
+                    <div id="data-analysis" class="toolkit-detail active">
+                        <div class="text-red-500 text-[10px] font-bold tracking-widest mb-2 uppercase">Proven Impact</div>
+                        <h4 class="text-2xl font-bold mb-4">Deep-Dive Data Analysis</h4>
+                        <p class="text-gray-400 text-sm leading-relaxed mb-6">
+                            Utilized at <span class="text-white">Amazon</span> to manage 8 Regional Fulfillment Centers. Performed deep-dives into KPIs to identify flow bottlenecks, enabling data-driven productivity increases of 13% network-wide.
+                        </p>
+                    </div>
+                    <div id="reporting" class="toolkit-detail">
+                        <div class="text-red-500 text-[10px] font-bold tracking-widest mb-2 uppercase">Proven Impact</div>
+                        <h4 class="text-2xl font-bold mb-4">Regulatory Reporting</h4>
+                        <p class="text-gray-400 text-sm leading-relaxed mb-6">
+                            Refined during tenure at <span class="text-white">Traction Fintech</span>. Owned daily reporting for 90+ EU & UK clients, redesigning workflows to cut error-checking time by 90% (saving 300+ annual hours).
+                        </p>
+                    </div>
+                    <div id="process" class="toolkit-detail">
+                        <div class="text-red-500 text-[10px] font-bold tracking-widest mb-2 uppercase">Proven Impact</div>
+                        <h4 class="text-2xl font-bold mb-4">Systemic Process Design</h4>
+                        <p class="text-gray-400 text-sm leading-relaxed mb-6">
+                            Developed at <span class="text-white">Gorillas</span> to improve Service Level and Delivery Promise reliability by 7.86%. Focused on testing operational tweaks between Central Ops and rider fleets.
+                        </p>
+                    </div>
+                    <div id="sql-excel" class="toolkit-detail">
+                        <div class="text-red-500 text-[10px] font-bold tracking-widest mb-2 uppercase">Proven Impact</div>
+                        <h4 class="text-2xl font-bold mb-4">Advanced Technical Ops</h4>
+                        <p class="text-gray-400 text-sm leading-relaxed mb-6">
+                            Core toolset used across <span class="text-white">Amazon & Traction</span>. Expert in SQL for error investigation and Excel for complex operational modeling and capacity planning.
+                        </p>
+                    </div>
+                    <div id="leadership" class="toolkit-detail">
+                        <div class="text-red-500 text-[10px] font-bold tracking-widest mb-2 uppercase">Proven Impact</div>
+                        <h4 class="text-2xl font-bold mb-4">Strategic Team Leadership</h4>
+                        <p class="text-gray-400 text-sm leading-relaxed mb-6">
+                            Led 35 specialists at <span class="text-white">Amazon</span> through peak periods. Certified in Situational Leadership 2 (SLII) to adapt management styles for diverse, high-pressure teams.
+                        </p>
+                    </div>
+                    <div id="ux-design" class="toolkit-detail">
+                        <div class="text-red-500 text-[10px] font-bold tracking-widest mb-2 uppercase">Proven Impact</div>
+                        <h4 class="text-2xl font-bold mb-4">Product Thinking</h4>
+                        <p class="text-gray-400 text-sm leading-relaxed mb-6">
+                            Applied as Founder of <span class="text-white">Split Trip</span>. Led product strategy and UI design, coordinating with dev teams to launch a live app serving 5,000+ users.
+                        </p>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
 
     <!-- Specs Section -->
-    <section id="specs" class="py-20 px-6 bg-neutral-900 border-t border-white/5">
+    <section id="specs" class="py-20 px-6 bg-black border-t border-white/5">
         <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-16">
+            <!-- Certifications -->
             <div>
-                <h3 class="text-[10px] font-cta text-gray-500 mb-8 border-b border-white/10 pb-2">CORE COMPETENCIES</h3>
+                <h3 class="text-[10px] font-cta text-gray-500 mb-8 border-b border-white/10 pb-2 uppercase">Core Certifications</h3>
                 <div class="grid grid-cols-1 gap-6">
-                    <div class="flex items-center gap-4">
-                        <div class="w-10 h-10 rounded bg-white/5 flex items-center justify-center text-green-500"><i class="fa-solid fa-leaf"></i></div>
+                    <div class="flex items-center gap-4 group">
+                        <div class="w-12 h-12 rounded bg-white/5 flex items-center justify-center text-red-500 border border-transparent group-hover:border-red-500/50 transition-all"><i class="fa-brands fa-amazon text-lg"></i></div>
                         <div>
-                            <div class="text-sm font-bold">Lean Six Sigma Green Belt</div>
-                            <div class="text-[10px] text-gray-500 tracking-widest uppercase">Efficiency Specialist</div>
+                            <div class="text-sm font-bold">Situational Leadership 2 (SLII)</div>
+                            <div class="text-[10px] text-gray-500 tracking-widest uppercase">Amazon | Internal Leadership Certification</div>
                         </div>
                     </div>
-                    <div class="flex items-center gap-4">
-                        <div class="w-10 h-10 rounded bg-white/5 flex items-center justify-center text-white"><i class="fa-brands fa-google"></i></div>
+                    <div class="flex items-center gap-4 group">
+                        <div class="w-12 h-12 rounded bg-white/5 flex items-center justify-center text-green-500 border border-transparent group-hover:border-green-500/50 transition-all"><i class="fa-solid fa-leaf text-lg"></i></div>
                         <div>
-                            <div class="text-sm font-bold">UX Professional</div>
-                            <div class="text-[10px] text-gray-500 tracking-widest uppercase">Google Certification</div>
+                            <div class="text-sm font-bold">Lean Six Sigma Green Belt</div>
+                            <div class="text-[10px] text-gray-500 tracking-widest uppercase">Alison | Operational Efficiency</div>
+                        </div>
+                    </div>
+                    <div class="flex items-center gap-4 group">
+                        <div class="w-12 h-12 rounded bg-white/5 flex items-center justify-center text-white border border-transparent group-hover:border-white/50 transition-all"><i class="fa-brands fa-google text-lg"></i></div>
+                        <div>
+                            <div class="text-sm font-bold">UX Professional Certificate</div>
+                            <div class="text-[10px] text-gray-500 tracking-widest uppercase">Google | Coursera</div>
                         </div>
                     </div>
                 </div>
             </div>
 
+            <!-- Education -->
             <div>
-                <h3 class="text-[10px] font-cta text-gray-500 mb-8 border-b border-white/10 pb-2">EDUCATION</h3>
-                <div class="space-y-6">
-                    <div>
-                        <div class="text-xl font-bold mb-1">M.Sc. Int. Business Management</div>
-                        <div class="text-xs text-gray-400 tracking-wide uppercase">Coventry University | UK</div>
+                <h3 class="text-[10px] font-cta text-gray-500 mb-8 border-b border-white/10 pb-2 uppercase">Academic Background</h3>
+                <div class="space-y-8">
+                    <div class="relative pl-6 border-l border-red-600/30">
+                        <div class="text-lg font-bold mb-1">M.Sc. International Business Management</div>
+                        <div class="text-[10px] text-red-500 font-bold tracking-[0.1em] uppercase mb-1">Coventry University | UK</div>
+                    </div>
+                    <div class="relative pl-6 border-l border-white/10">
+                        <div class="text-lg font-bold mb-1">M.Com Accounting and Finance</div>
+                        <div class="text-[10px] text-gray-400 font-bold tracking-[0.1em] uppercase mb-1">University of Central Punjab | Pakistan</div>
+                    </div>
+                    <div class="relative pl-6 border-l border-white/10">
+                        <div class="text-lg font-bold mb-1">B.Com Accounting</div>
+                        <div class="text-[10px] text-gray-400 font-bold tracking-[0.1em] uppercase mb-1">Punjab University | Pakistan</div>
                     </div>
                 </div>
             </div>
@@ -368,7 +457,7 @@
         <div class="relative z-10">
             <h2 class="text-4xl md:text-6xl font-cta mb-6">INITIATE<br>CONTACT</h2>
             <p class="text-gray-400 mb-10 max-w-lg mx-auto leading-relaxed">
-                Thank you for reviewing this configuration. I am looking forward to meeting Jack for our coffee meetup in person.
+                Thank you for reviewing this configuration. Looking forward to discussing how my operational toolkit can drive Tesla's mission forward.
             </p>
             
             <a href="mailto:moizjanjua@icloud.com" class="inline-block px-12 py-4 border border-white text-white font-bold tracking-[0.2em] text-xs hover:bg-white hover:text-black transition-all uppercase mb-12">
@@ -382,12 +471,8 @@
             </div>
             
             <div class="mt-24">
-                <!-- Tesla Brand Reverted to Logo Style -->
                 <div class="flex justify-center opacity-30">
-                    <svg class="h-6 w-auto text-white" viewBox="0 0 342 35" fill="currentColor">
-                        <path d="M0 0h342v35H0z" fill="none"/>
-                        <text x="171" y="25" text-anchor="middle" font-family="Orbitron" font-weight="900" font-size="24" letter-spacing="4">TESLA</text>
-                    </svg>
+                    <div class="text-white font-tech font-black text-2xl tracking-[0.5em]">TESLA</div>
                 </div>
             </div>
         </div>
@@ -411,7 +496,41 @@
                 icon.classList.add('fa-minus');
             }
         }
-    </script>
 
+        function showToolkitDetail(id, card) {
+            // Update cards
+            document.querySelectorAll('.toolkit-card').forEach(c => {
+                c.classList.remove('active');
+                c.querySelector('i').classList.replace('text-red-500', 'text-white/40');
+            });
+            card.classList.add('active');
+            card.querySelector('i').classList.replace('text-white/40', 'text-red-500');
+
+            // Update details
+            document.querySelectorAll('.toolkit-detail').forEach(d => d.classList.remove('active'));
+            document.getElementById(id).classList.add('active');
+        }
+
+        // Active Link Highlight
+        window.addEventListener('scroll', () => {
+            const sections = document.querySelectorAll('section');
+            const navLinks = document.querySelectorAll('nav a');
+            
+            let current = '';
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                if (pageYOffset >= sectionTop - 100) {
+                    current = section.getAttribute('id');
+                }
+            });
+
+            navLinks.forEach(link => {
+                link.classList.remove('text-red-500');
+                if (link.getAttribute('href').includes(current)) {
+                    link.classList.add('text-red-500');
+                }
+            });
+        });
+    </script>
 </body>
 </html>
