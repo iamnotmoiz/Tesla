@@ -3,375 +3,415 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Moiz Janjua | Operations Architecture</title>
+    <title>Moiz Janjua | Tesla Operations Profile</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Manrope:wght@200;300;400;500;600;700;800&family=Syncopate:wght@400;700&display=swap');
+        /* Typography */
+        @import url('https://fonts.googleapis.com/css2?family=Manrope:wght@200;300;400;500;600;700;800&family=Orbitron:wght@500;700;900&display=swap');
 
         :root {
-            --tesla-red: #E31937;
-            --cyber-steel: #E0E0E0;
-            --matte-black: #111111;
-            --glass-panel: rgba(255, 255, 255, 0.03);
-            --border-panel: rgba(255, 255, 255, 0.1);
+            --tesla-red: #E82127;
+            --tesla-dark: #000000;
+            --panel-bg: rgba(255, 255, 255, 0.05);
+            --border-color: rgba(255, 255, 255, 0.1);
         }
 
         body {
             font-family: 'Manrope', sans-serif;
-            background-color: #000;
-            color: #fff;
+            background-color: var(--tesla-dark);
+            color: #ffffff;
             overflow-x: hidden;
         }
 
-        .font-brand { font-family: 'Syncopate', sans-serif; }
+        .font-tech { font-family: 'Orbitron', sans-serif; }
+        .font-name { font-family: 'Manrope', sans-serif; font-weight: 800; letter-spacing: -0.02em; }
+        .font-cta { font-family: 'Manrope', sans-serif; font-weight: 700; letter-spacing: 0.25em; }
 
         /* Custom Scrollbar */
-        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar { width: 4px; }
         ::-webkit-scrollbar-track { background: #000; }
-        ::-webkit-scrollbar-thumb { background: #333; border-radius: 3px; }
+        ::-webkit-scrollbar-thumb { background: #333; border-radius: 2px; }
 
         /* Animations */
-        @keyframes fadeUp {
-            from { opacity: 0; transform: translateY(40px); }
+        @keyframes driftUp {
+            from { opacity: 0; transform: translateY(20px); }
             to { opacity: 1; transform: translateY(0); }
         }
 
-        .animate-up {
-            animation: fadeUp 1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        .animate-drift {
             opacity: 0;
+            animation: driftUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
         }
 
         .delay-100 { animation-delay: 0.1s; }
         .delay-200 { animation-delay: 0.2s; }
         .delay-300 { animation-delay: 0.3s; }
 
-        /* Bento Grid Card Styling */
-        .bento-card {
-            background: var(--glass-panel);
-            border: 1px solid var(--border-panel);
-            backdrop-filter: blur(20px);
-            transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+        /* Bento Grid Cards */
+        .glass-panel {
+            background: var(--panel-bg);
+            backdrop-filter: blur(14px);
+            border: 1px solid var(--border-color);
+            transition: border-color 0.3s ease, background-color 0.3s ease;
             position: relative;
             overflow: hidden;
         }
 
-        .bento-card::before {
-            content: '';
+        .glass-panel:hover {
+            border-color: rgba(255, 255, 255, 0.3);
+            background: rgba(255, 255, 255, 0.08);
+        }
+
+        /* Nav Blur */
+        nav {
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        /* Abstract Background */
+        .bg-glow {
             position: absolute;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: radial-gradient(800px circle at var(--mouse-x) var(--mouse-y), rgba(255,255,255,0.06), transparent 40%);
-            opacity: 0;
-            transition: opacity 0.5s;
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(232,33,39,0.15) 0%, rgba(0,0,0,0) 70%);
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 0;
             pointer-events: none;
         }
 
-        .bento-card:hover::before { opacity: 1; }
-        .bento-card:hover { border-color: rgba(255,255,255,0.3); transform: translateY(-2px); }
-
-        /* Hero Text Texture */
-        .cyber-text {
-            background: linear-gradient(to bottom, #fff 40%, #666 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+        /* Expansion Logic */
+        .details-container {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.4s ease;
+            opacity: 0;
+        }
+        
+        .details-container.open {
+            max-height: 500px;
+            opacity: 1;
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 1px solid rgba(255,255,255,0.1);
         }
 
-        /* Nav */
-        nav {
-            background: rgba(0,0,0,0.8);
-            backdrop-filter: blur(12px);
-            border-bottom: 1px solid rgba(255,255,255,0.05);
+        .btn-expand {
+            cursor: pointer;
+            font-size: 10px;
+            font-weight: 700;
+            letter-spacing: 0.1em;
+            color: #E82127;
+            text-transform: uppercase;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            transition: color 0.2s;
         }
-
-        .stat-val {
-            font-feature-settings: "tnum" on, "lnum" on;
+        .btn-expand:hover {
+            color: #fff;
         }
     </style>
 </head>
-<body class="bg-black selection:bg-white selection:text-black">
+<body class="selection:bg-white selection:text-black">
 
-    <!-- Navbar -->
-    <nav class="fixed top-0 w-full z-50 h-16 flex items-center justify-between px-6 md:px-12">
-        <div class="flex items-center gap-2">
-            <svg class="w-24 h-auto text-white" viewBox="0 0 342 35" fill="currentColor">
-               <!-- Abstract Tesla-like Logo Text representation -->
-               <text x="0" y="25" font-family="Syncopate" font-weight="bold" font-size="20" letter-spacing="2">TESLA</text>
-            </svg>
-            <div class="h-4 w-px bg-white/30 mx-2"></div>
-            <span class="text-[10px] font-bold tracking-[0.3em] text-white/60">OPS CANDIDATE</span>
+    <!-- Navigation -->
+    <nav class="fixed top-0 w-full z-50 h-16 flex items-center justify-between px-6 lg:px-12 transition-all">
+        <div class="flex items-center gap-4">
+            <!-- Tesla Logo in Nav -->
+            <div class="text-white font-tech font-black text-xl tracking-[0.4em]">TESLA</div>
+            <div class="h-4 w-px bg-white/20"></div>
+            <span class="text-[10px] font-bold tracking-[0.25em] text-white/50 uppercase hidden sm:block">Operations Profile</span>
         </div>
-        <div class="hidden md:flex gap-8 text-[11px] font-bold tracking-[0.2em] text-white/80">
+        
+        <div class="hidden md:flex items-center gap-8 text-[11px] font-bold tracking-[0.15em] text-white/70">
+            <a href="#overview" class="hover:text-white transition-colors">OVERVIEW</a>
+            <a href="#performance" class="hover:text-white transition-colors">EXPERIENCE</a>
             <a href="#specs" class="hover:text-white transition-colors">SPECS</a>
-            <a href="#model-x" class="hover:text-white transition-colors">EXPERIENCE</a>
-            <a href="#software" class="hover:text-white transition-colors">SOFTWARE</a>
-            <a href="#contact" class="hover:text-white transition-colors">CONTACT</a>
         </div>
-        <a href="#contact" class="px-6 py-2 border border-white/20 text-[10px] font-bold tracking-widest hover:bg-white hover:text-black transition-all uppercase">
-            Schedule Interview
+
+        <a href="#contact" class="border border-white/20 px-6 py-2 text-[10px] font-bold tracking-widest uppercase hover:bg-white hover:text-black transition-all">
+            Contact
         </a>
     </nav>
 
     <!-- Hero Section -->
-    <section class="relative min-h-screen flex flex-col justify-center px-6 md:px-12 pt-20 overflow-hidden">
-        <!-- Abstract Background -->
-        <div class="absolute inset-0 z-0 opacity-40">
-            <img src="https://images.unsplash.com/photo-1542468002-3696f5341d72?q=80&w=2960&auto=format&fit=crop" class="w-full h-full object-cover grayscale" alt="texture">
-            <div class="absolute inset-0 bg-gradient-to-t from-black via-black/80 to-transparent"></div>
+    <section id="overview" class="relative min-h-screen flex items-center justify-center px-6 pt-20 overflow-hidden">
+        
+        <div class="absolute inset-0 z-0">
+            <img src="https://images.unsplash.com/photo-1617788138017-80ad40651399?q=80&w=2000&auto=format&fit=crop" 
+                 class="w-full h-full object-cover opacity-30 grayscale" 
+                 alt="Tesla Interior Abstract">
+            <div class="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent"></div>
+            <div class="absolute inset-0 bg-gradient-to-r from-black/80 via-transparent to-black/80"></div>
         </div>
 
-        <div class="relative z-10 max-w-7xl mx-auto w-full grid grid-cols-1 lg:grid-cols-12 gap-12 items-end">
+        <div class="relative z-10 max-w-7xl w-full grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-0 items-end pb-20">
+            
             <div class="lg:col-span-8">
-                <div class="text-[12px] font-bold tracking-[0.4em] text-red-500 mb-6 animate-up">OPERATIONAL ARCHITECT</div>
-                <h1 class="text-6xl md:text-8xl lg:text-9xl font-brand font-bold leading-none tracking-tighter mb-8 animate-up delay-100 cyber-text">
-                    MOIZ<br>JANJUA
+                <!-- Personalization Badge -->
+                <div class="animate-drift inline-flex items-center gap-3 bg-white/5 border border-white/10 px-4 py-2 rounded-full mb-8 backdrop-blur-md">
+                    <span class="w-2 h-2 bg-red-600 rounded-full animate-pulse"></span>
+                    <div class="text-[10px] font-bold tracking-widest uppercase text-white/80">
+                        Tailored for <a href="https://www.linkedin.com/in/jack-gooderham-664b7758/" target="_blank" class="text-white border-b border-red-600 pb-0.5 hover:text-red-500 transition-colors">Jack Gooderham</a>
+                    </div>
+                </div>
+
+                <h1 class="text-6xl md:text-8xl lg:text-9xl font-name leading-none mb-6 animate-drift delay-100">
+                    MOIZ<br><span class="text-transparent bg-clip-text bg-gradient-to-br from-white to-gray-600">JANJUA</span>
                 </h1>
-                <p class="text-xl md:text-2xl text-gray-400 font-light max-w-2xl animate-up delay-200 leading-relaxed">
-                    Scaling high-pressure logistics with <span class="text-white font-medium">first principles thinking</span>. 
-                    Merging operational rigor (Amazon/Gopuff) with strategic product design (Fintech).
+                
+                <p class="text-lg md:text-xl text-gray-400 font-light max-w-2xl leading-relaxed animate-drift delay-200">
+                    Performance-driven Operations Manager with extensive experience in leading high-growth teams across logistics and fintech. Proven track record in <span class="text-white font-medium">Amazon</span> fulfillment and scalable service operations.
                 </p>
             </div>
-            
-            <!-- Quick Stats -->
-            <div class="lg:col-span-4 flex flex-col gap-6 animate-up delay-300">
-                <div class="flex justify-between items-end border-b border-white/20 pb-4">
-                    <span class="text-[10px] tracking-widest text-gray-500">DISPATCH EFFICIENCY</span>
-                    <span class="text-4xl font-light stat-val">+17%</span>
+
+            <div class="lg:col-span-4 flex flex-col gap-6 animate-drift delay-300 border-l border-white/10 pl-0 lg:pl-10">
+                <div class="group">
+                    <div class="text-[10px] text-gray-500 tracking-[0.2em] mb-1">EFFICIENCY UPLIFT</div>
+                    <div class="text-4xl font-light text-white group-hover:text-red-500 transition-colors duration-300">17%</div>
                 </div>
-                <div class="flex justify-between items-end border-b border-white/20 pb-4">
-                    <span class="text-[10px] tracking-widest text-gray-500">TEAM SIZE</span>
-                    <span class="text-4xl font-light stat-val">35+</span>
+                <div class="group">
+                    <div class="text-[10px] text-gray-500 tracking-[0.2em] mb-1">TEAM SIZE</div>
+                    <div class="text-4xl font-light text-white group-hover:text-red-500 transition-colors duration-300">35+</div>
                 </div>
-                <div class="flex justify-between items-end border-b border-white/20 pb-4">
-                    <span class="text-[10px] tracking-widest text-gray-500">LOCATION</span>
-                    <span class="text-xl font-light text-right">WATFORD, UK</span>
+                <div class="group">
+                    <div class="text-[10px] text-gray-500 tracking-[0.2em] mb-1">LOCATION</div>
+                    <div class="text-xl font-light text-white">WATFORD, UK</div>
                 </div>
             </div>
         </div>
 
-        <!-- Scroll Indicator -->
-        <div class="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 opacity-50 animate-bounce">
-            <span class="text-[10px] tracking-widest">SCROLL</span>
-            <i class="fa-solid fa-chevron-down"></i>
+        <div class="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 opacity-30 animate-bounce">
+            <span class="text-[9px] tracking-[0.3em]">DRIVE</span>
+            <i class="fa-solid fa-chevron-down text-xs"></i>
         </div>
     </section>
 
-    <!-- Experience Grid (Bento Style) -->
-    <section id="specs" class="py-32 px-6 md:px-12 bg-black relative">
-        <div class="max-w-7xl mx-auto">
-            <div class="mb-20 flex flex-col md:flex-row justify-between items-end gap-6">
-                <div>
-                    <h2 class="text-4xl md:text-5xl font-brand font-bold mb-4">PERFORMANCE<br>SPECS</h2>
-                    <p class="text-gray-500 max-w-md">Data-driven operational history. Optimized for scale and reliability.</p>
-                </div>
-                <div class="text-right hidden md:block">
-                    <div class="text-[10px] tracking-[0.3em] text-red-500 mb-2">CURRENT STATUS</div>
-                    <div class="text-xl font-bold">AVAILABLE IMMEDIATELY</div>
+    <!-- Experience Grid -->
+    <section id="performance" class="py-24 px-4 md:px-8 lg:px-12 bg-black relative">
+        <div class="bg-glow"></div>
+        <div class="max-w-7xl mx-auto relative z-10">
+            <div class="flex flex-col md:flex-row justify-between items-end mb-16 border-b border-white/10 pb-6">
+                <h2 class="text-3xl md:text-4xl font-cta uppercase">Deployment History</h2>
+                <div class="text-right mt-4 md:mt-0">
+                    <div class="text-[10px] text-red-600 tracking-[0.3em] font-bold mb-1">STATUS</div>
+                    <div class="text-sm font-bold uppercase">Ready for interview</div>
                 </div>
             </div>
 
-            <!-- Bento Grid -->
-            <div class="grid grid-cols-1 md:grid-cols-6 lg:grid-cols-12 gap-4 auto-rows-[300px]">
-                
-                <!-- Amazon Card (Large) -->
-                <div class="bento-card md:col-span-6 lg:col-span-8 p-8 flex flex-col justify-between group" onmousemove="handleMouseMove(event)">
-                    <div class="flex justify-between items-start">
-                        <div class="px-3 py-1 border border-white/20 text-[10px] font-bold tracking-widest uppercase rounded-full">Logistics</div>
-                        <i class="fa-brands fa-amazon text-4xl text-white/20 group-hover:text-white transition-colors"></i>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 auto-rows-auto">
+
+                <!-- Amazon -->
+                <div class="glass-panel col-span-1 md:col-span-2 lg:col-span-2 p-8 flex flex-col justify-between group">
+                    <div class="flex justify-between items-start mb-4">
+                        <span class="px-2 py-1 bg-white/10 text-[9px] font-bold tracking-widest uppercase">Amazon UK & EU</span>
+                        <i class="fa-brands fa-amazon text-4xl text-white/10 group-hover:text-white transition-colors"></i>
                     </div>
                     <div>
-                        <div class="text-[10px] tracking-widest text-gray-400 mb-2">2023 — 2024</div>
-                        <h3 class="text-3xl font-bold mb-2">AREA MANAGER</h3>
-                        <div class="text-sm font-bold text-gray-500 mb-4">AMAZON UK & CENTRAL EUROPE</div>
-                        <p class="text-gray-400 text-sm leading-relaxed max-w-lg">
-                            Commanded a unit of 35 specialists. Engineered a 13% productivity increase via Lean Six Sigma methodologies. Improved on-time dispatch by 17% across 8 Fulfillment Centers.
+                        <div class="text-[10px] text-gray-500 tracking-widest mb-2">MAR 2023 — FEB 2024</div>
+                        <h3 class="text-3xl font-bold mb-2">Area Manager</h3>
+                        <p class="text-sm text-gray-400 leading-relaxed max-w-md">
+                            Engineered a 13% productivity increase via Lean Six Sigma and automated reporting within Amazon's fast-paced fulfillment network.
                         </p>
+                        
+                        <div class="mt-4" onclick="toggleDetails('amazon-details', this)">
+                            <span class="btn-expand">View Specs <i class="fa-solid fa-plus text-[8px]"></i></span>
+                        </div>
+
+                        <div id="amazon-details" class="details-container">
+                            <ul class="text-xs text-gray-400 space-y-2 list-disc list-inside">
+                                <li>Led 35 specialists in a zero-error, high-volume operational environment.</li>
+                                <li>Optimized dispatch efficiency by 17% across 8 Regional Fulfillment Centers.</li>
+                                <li>Implemented data-driven performance management tools.</li>
+                            </ul>
+                        </div>
                     </div>
-                    <!-- Decorative Graphic -->
-                    <div class="absolute right-0 bottom-0 w-64 h-32 bg-gradient-to-t from-red-900/20 to-transparent blur-3xl rounded-full pointer-events-none"></div>
                 </div>
 
-                <!-- Metrics Card (Small) -->
-                <div class="bento-card md:col-span-3 lg:col-span-4 p-8 flex flex-col justify-center items-center text-center" onmousemove="handleMouseMove(event)">
-                    <div class="text-[10px] tracking-[0.2em] text-gray-500 mb-4">ACCURACY RATING</div>
-                    <div class="text-7xl font-light tracking-tighter mb-2">99.9<span class="text-2xl">%</span></div>
-                    <div class="text-xs text-red-500 font-bold uppercase tracking-widest">Target Achieved</div>
+                <!-- Scale Metric -->
+                <div class="glass-panel col-span-1 lg:col-span-1 p-6 flex flex-col justify-center items-center text-center">
+                    <div class="text-[9px] text-gray-500 tracking-[0.2em] mb-2">MANAGEMENT SCALE</div>
+                    <div class="text-5xl font-light text-white">8 FCs</div>
+                    <div class="text-[9px] text-red-500 font-bold uppercase mt-2 tracking-widest">Regional Scope</div>
                 </div>
 
-                <!-- Traction Fintech (Tall) -->
-                <div class="bento-card md:col-span-3 lg:col-span-4 row-span-2 p-8 flex flex-col justify-between" onmousemove="handleMouseMove(event)">
+                <!-- Gopuff -->
+                <div class="glass-panel col-span-1 md:col-span-2 lg:col-span-1 p-6 flex flex-col justify-between group">
                     <div class="flex justify-between items-start">
-                         <div class="px-3 py-1 border border-white/20 text-[10px] font-bold tracking-widest uppercase rounded-full">Fintech</div>
-                         <i class="fa-solid fa-chart-line text-2xl text-white/20"></i>
+                        <span class="px-2 py-1 bg-white/10 text-[9px] font-bold tracking-widest uppercase">Instant Commerce</span>
+                        <i class="fa-solid fa-bolt text-2xl text-white/10 group-hover:text-blue-400 transition-colors"></i>
                     </div>
-                    <div>
-                        <div class="text-[10px] tracking-widest text-gray-400 mb-2">2025 (LATE)</div>
-                        <h3 class="text-2xl font-bold mb-1">ONBOARDING OPS</h3>
-                        <div class="text-xs font-bold text-gray-500 mb-6">TRACTION FINTECH | LONDON</div>
-                        <ul class="space-y-4 text-sm text-gray-400">
-                            <li class="flex gap-3 items-start">
-                                <span class="w-1 h-1 bg-white mt-2 rounded-full flex-shrink-0"></span>
-                                Managed 90+ daily B2B client integrations.
-                            </li>
-                            <li class="flex gap-3 items-start">
-                                <span class="w-1 h-1 bg-white mt-2 rounded-full flex-shrink-0"></span>
-                                Diagnosed complex data discrepancies.
-                            </li>
-                            <li class="flex gap-3 items-start">
-                                <span class="w-1 h-1 bg-white mt-2 rounded-full flex-shrink-0"></span>
-                                Bridged gap between ops and dev teams.
-                            </li>
+                    <div class="mt-8">
+                        <div class="text-[10px] text-gray-500 tracking-widest mb-1">2025 (EARLY)</div>
+                        <h3 class="text-xl font-bold mb-1">Night Ops Supervisor</h3>
+                        <div class="text-[10px] font-bold text-gray-400 mb-3">GOPUFF | HACKNEY</div>
+                        
+                        <div class="mt-4" onclick="toggleDetails('gopuff-details', this)">
+                            <span class="btn-expand">View Specs <i class="fa-solid fa-plus text-[8px]"></i></span>
+                        </div>
+
+                        <div id="gopuff-details" class="details-container">
+                            <ul class="text-xs text-gray-400 space-y-2 list-disc list-inside">
+                                <li>Owned end-to-end night cycle operations and labor optimization.</li>
+                                <li>Maintained 100% SLA fulfillment through peak night surges.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- KPI Metric -->
+                <div class="glass-panel col-span-1 lg:col-span-1 p-6 flex flex-col justify-center items-center text-center">
+                    <div class="text-[9px] text-gray-500 tracking-[0.2em] mb-2">SERVICE LEVEL</div>
+                    <div class="text-5xl font-light text-white">100%</div>
+                    <div class="text-[9px] text-red-500 font-bold uppercase mt-2 tracking-widest">Peak Performance</div>
+                </div>
+
+                <!-- Traction -->
+                <div class="glass-panel col-span-1 md:col-span-2 lg:col-span-2 p-8 flex flex-col justify-between group">
+                    <div class="flex justify-between items-start">
+                        <span class="px-2 py-1 bg-white/10 text-[9px] font-bold tracking-widest uppercase">Fintech</span>
+                        <i class="fa-solid fa-building-columns text-2xl text-white/10 group-hover:text-white transition-colors"></i>
+                    </div>
+                    <div class="mt-6">
+                        <div class="flex flex-col md:flex-row gap-4 items-baseline">
+                            <div class="flex-1">
+                                <div class="text-[10px] text-gray-500 tracking-widest mb-1">2024 — 2025</div>
+                                <h3 class="text-xl font-bold mb-1">Onboarding Ops</h3>
+                                <div class="text-[10px] font-bold text-gray-400">TRACTION FINTECH</div>
+                            </div>
+                            <p class="text-xs text-gray-400 flex-1 leading-relaxed border-l border-white/10 pl-4">
+                                Managed high-volume B2B onboarding, supporting 90+ daily clients with technical integration.
+                            </p>
+                        </div>
+
+                        <div class="mt-4" onclick="toggleDetails('traction-details', this)">
+                            <span class="btn-expand">View Specs <i class="fa-solid fa-plus text-[8px]"></i></span>
+                        </div>
+
+                        <div id="traction-details" class="details-container">
+                            <ul class="text-xs text-gray-400 space-y-2 list-disc list-inside">
+                                <li>Resolved complex data discrepancies to bridge Ops and Dev gaps.</li>
+                                <li>Guided business clients through high-quality technical setup.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Gorillas -->
+                <div class="glass-panel col-span-1 md:col-span-1 lg:col-span-2 p-6 flex flex-col justify-between hover:bg-white/5 transition-colors">
+                    <div class="flex justify-between items-start">
+                        <div>
+                            <div class="text-[10px] text-gray-500 tracking-widest mb-1">2021 — 2023</div>
+                            <h3 class="text-lg font-bold">Ops Supervisor</h3>
+                            <div class="text-[10px] font-bold text-gray-400">GORILLAS | LONDON</div>
+                        </div>
+                        <i class="fa-solid fa-box text-2xl text-white/20"></i>
+                    </div>
+                    
+                    <div class="mt-4" onclick="toggleDetails('gorillas-details', this)">
+                        <span class="btn-expand">View Specs <i class="fa-solid fa-plus text-[8px]"></i></span>
+                    </div>
+
+                    <div id="gorillas-details" class="details-container">
+                        <ul class="text-xs text-gray-400 space-y-2 list-disc list-inside">
+                            <li>Improved KPIs by 7.8% across fast-delivery operations.</li>
+                            <li>Trained and managed a diverse fleet of 100+ associates.</li>
                         </ul>
                     </div>
                 </div>
 
-                <!-- Gopuff (Medium) -->
-                <div class="bento-card md:col-span-6 lg:col-span-8 p-8 flex flex-col justify-between" onmousemove="handleMouseMove(event)">
-                     <div class="flex justify-between items-start">
-                        <div class="px-3 py-1 border border-white/20 text-[10px] font-bold tracking-widest uppercase rounded-full">High-Speed Ops</div>
-                        <i class="fa-solid fa-bolt text-3xl text-white/20"></i>
-                    </div>
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-end">
-                        <div>
-                            <div class="text-[10px] tracking-widest text-gray-400 mb-2">2025 (EARLY)</div>
-                            <h3 class="text-2xl font-bold mb-1">NIGHT SUPERVISOR</h3>
-                            <div class="text-xs font-bold text-gray-500">GOPUFF | HACKNEY</div>
-                        </div>
-                        <p class="text-sm text-gray-400 leading-relaxed">
-                            Managed end-to-end night cycle logistics. Maintained 100% SLA fulfillment during peak surges through real-time labor optimization and rider coordination.
-                        </p>
-                    </div>
-                </div>
-
-                <!-- Gorillas (Medium) -->
-                <div class="bento-card md:col-span-6 lg:col-span-4 p-8 flex flex-col justify-between" onmousemove="handleMouseMove(event)">
-                     <div class="flex justify-between items-start">
-                        <div class="px-3 py-1 border border-white/20 text-[10px] font-bold tracking-widest uppercase rounded-full">Growth</div>
-                        <i class="fa-solid fa-box text-3xl text-white/20"></i>
-                    </div>
-                    <div>
-                        <div class="text-[10px] tracking-widest text-gray-400 mb-2">2021 — 2023</div>
-                        <h3 class="text-xl font-bold mb-1">OPS SUPERVISOR</h3>
-                        <div class="text-xs font-bold text-gray-500 mb-4">GORILLAS | LONDON</div>
-                        <div class="text-3xl font-light text-white mb-1">+7.8%</div>
-                        <div class="text-[10px] text-gray-500 tracking-widest">KPI UPLIFT</div>
-                    </div>
-                </div>
-
-                 <!-- Tresmark (Medium) -->
-                 <div class="bento-card md:col-span-6 lg:col-span-4 p-8 flex flex-col justify-between" onmousemove="handleMouseMove(event)">
-                     <div class="flex justify-between items-start">
-                        <div class="px-3 py-1 border border-white/20 text-[10px] font-bold tracking-widest uppercase rounded-full">Design</div>
-                        <i class="fa-solid fa-pen-ruler text-3xl text-white/20"></i>
-                    </div>
-                    <div>
-                        <div class="text-[10px] tracking-widest text-gray-400 mb-2">2019 — 2021</div>
-                        <h3 class="text-xl font-bold mb-1">LEAD UX DESIGNER</h3>
-                        <div class="text-xs font-bold text-gray-500 mb-4">TRESMARK</div>
-                        <p class="text-xs text-gray-400">Architected TresmarkeFX interbank currency platform.</p>
-                    </div>
-                </div>
-
             </div>
         </div>
     </section>
 
-    <!-- Education & Skills (Technical Sheet) -->
-    <section id="software" class="py-24 px-6 md:px-12 bg-zinc-900 border-t border-white/10">
-        <div class="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-3 gap-20">
+    <!-- Specs Section -->
+    <section id="specs" class="py-20 px-6 bg-neutral-900 border-t border-white/5">
+        <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-16">
             <div>
-                <h2 class="text-3xl font-brand font-bold mb-8">SYSTEM<br>UPGRADES</h2>
-                <div class="space-y-6">
+                <h3 class="text-[10px] font-cta text-gray-500 mb-8 border-b border-white/10 pb-2">CORE COMPETENCIES</h3>
+                <div class="grid grid-cols-1 gap-6">
                     <div class="flex items-center gap-4">
-                        <i class="fa-brands fa-google text-2xl text-gray-400"></i>
-                        <div>
-                            <div class="text-sm font-bold">Google UX Professional</div>
-                            <div class="text-[10px] text-gray-500 tracking-widest uppercase">Certification</div>
-                        </div>
-                    </div>
-                    <div class="flex items-center gap-4">
-                        <i class="fa-solid fa-leaf text-2xl text-green-500/80"></i>
+                        <div class="w-10 h-10 rounded bg-white/5 flex items-center justify-center text-green-500"><i class="fa-solid fa-leaf"></i></div>
                         <div>
                             <div class="text-sm font-bold">Lean Six Sigma Green Belt</div>
-                            <div class="text-[10px] text-gray-500 tracking-widest uppercase">Process Optimization</div>
+                            <div class="text-[10px] text-gray-500 tracking-widest uppercase">Efficiency Specialist</div>
                         </div>
                     </div>
                     <div class="flex items-center gap-4">
-                        <i class="fa-brands fa-amazon text-2xl text-orange-400/80"></i>
+                        <div class="w-10 h-10 rounded bg-white/5 flex items-center justify-center text-white"><i class="fa-brands fa-google"></i></div>
                         <div>
-                            <div class="text-sm font-bold">Situational Leadership II</div>
-                            <div class="text-[10px] text-gray-500 tracking-widest uppercase">Management</div>
+                            <div class="text-sm font-bold">UX Professional</div>
+                            <div class="text-[10px] text-gray-500 tracking-widest uppercase">Google Certification</div>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <div class="lg:col-span-2">
-                 <h2 class="text-3xl font-brand font-bold mb-8">EDUCATION</h2>
-                 <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-                     <div class="p-6 border border-white/10 bg-black">
-                         <div class="text-[10px] text-red-500 font-bold tracking-widest mb-2">UNITED KINGDOM</div>
-                         <h3 class="text-xl font-bold mb-1">Coventry University</h3>
-                         <p class="text-sm text-gray-400">M.Sc. International Business Management</p>
-                     </div>
-                     <div class="p-6 border border-white/10 bg-black">
-                         <div class="text-[10px] text-red-500 font-bold tracking-widest mb-2">PAKISTAN</div>
-                         <h3 class="text-xl font-bold mb-1">University of Central Punjab</h3>
-                         <p class="text-sm text-gray-400">M.Com Accounting & Finance</p>
-                     </div>
-                 </div>
+            <div>
+                <h3 class="text-[10px] font-cta text-gray-500 mb-8 border-b border-white/10 pb-2">EDUCATION</h3>
+                <div class="space-y-6">
+                    <div>
+                        <div class="text-xl font-bold mb-1">M.Sc. Int. Business Management</div>
+                        <div class="text-xs text-gray-400 tracking-wide uppercase">Coventry University | UK</div>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
 
-    <!-- Footer / Contact -->
-    <section id="contact" class="py-32 px-6 text-center bg-black relative overflow-hidden">
-        <!-- Background Glow -->
-        <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-red-600/20 blur-[120px] rounded-full pointer-events-none"></div>
-
+    <!-- Contact CTA -->
+    <section id="contact" class="py-32 px-6 text-center bg-black relative">
         <div class="relative z-10">
-            <h2 class="text-4xl md:text-6xl font-brand font-bold mb-6">READY TO DEPLOY</h2>
-            <p class="text-gray-400 mb-12 max-w-xl mx-auto">
-                Operations expert configured for the Tesla ecosystem. 
-                Based in Watford, UK. Available immediately.
+            <h2 class="text-4xl md:text-6xl font-cta mb-6">INITIATE<br>CONTACT</h2>
+            <p class="text-gray-400 mb-10 max-w-lg mx-auto leading-relaxed">
+                Thank you for reviewing this configuration. I am looking forward to meeting Jack for our coffee meetup in person.
             </p>
             
-            <a href="mailto:moizjanjua@icloud.com" class="inline-block px-12 py-4 bg-white text-black font-bold tracking-[0.2em] text-sm hover:bg-gray-200 transition-colors uppercase">
-                Initiate Contact
+            <a href="mailto:moizjanjua@icloud.com" class="inline-block px-12 py-4 border border-white text-white font-bold tracking-[0.2em] text-xs hover:bg-white hover:text-black transition-all uppercase mb-12">
+                Send Message
             </a>
 
-            <div class="mt-20 flex justify-center gap-8">
-                <a href="https://linkedin.com/in/moizjanjua/" class="text-gray-500 hover:text-white transition-colors uppercase text-xs tracking-widest">LinkedIn</a>
-                <a href="#" class="text-gray-500 hover:text-white transition-colors uppercase text-xs tracking-widest">CV PDF</a>
-                <span class="text-gray-700 uppercase text-xs tracking-widest">+44 7853 204148</span>
+            <div class="flex flex-col md:flex-row justify-center items-center gap-6 md:gap-12 text-[10px] font-bold tracking-widest text-gray-600 uppercase">
+                <a href="https://linkedin.com/in/moizjanjua/" target="_blank" class="hover:text-white transition-colors">LinkedIn Profile</a>
+                <span>+44 7853 204148</span>
+                <span>Watford, UK</span>
             </div>
             
-            <div class="mt-12 text-[10px] text-gray-800 tracking-[0.4em]">
-                TESLA OPERATIONS PORTFOLIO © 2026
+            <div class="mt-24">
+                <!-- Tesla Brand Reverted to Logo Style -->
+                <div class="flex justify-center opacity-30">
+                    <svg class="h-6 w-auto text-white" viewBox="0 0 342 35" fill="currentColor">
+                        <path d="M0 0h342v35H0z" fill="none"/>
+                        <text x="171" y="25" text-anchor="middle" font-family="Orbitron" font-weight="900" font-size="24" letter-spacing="4">TESLA</text>
+                    </svg>
+                </div>
             </div>
         </div>
     </section>
 
     <script>
-        // Mouse movement effect for Bento Cards
-        function handleMouseMove(e) {
-            const card = e.currentTarget;
-            const rect = card.getBoundingClientRect();
-            const x = e.clientX - rect.left;
-            const y = e.clientY - rect.top;
-            
-            card.style.setProperty('--mouse-x', `${x}px`);
-            card.style.setProperty('--mouse-y', `${y}px`);
-        }
+        function toggleDetails(id, btn) {
+            const content = document.getElementById(id);
+            const icon = btn.querySelector('i');
+            const isOpen = content.classList.contains('open');
 
-        // Smooth Scroll
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                document.querySelector(this.getAttribute('href')).scrollIntoView({
-                    behavior: 'smooth'
-                });
+            document.querySelectorAll('.details-container').forEach(el => el.classList.remove('open'));
+            document.querySelectorAll('.btn-expand i').forEach(el => {
+                el.classList.remove('fa-minus');
+                el.classList.add('fa-plus');
             });
-        });
+
+            if (!isOpen) {
+                content.classList.add('open');
+                icon.classList.remove('fa-plus');
+                icon.classList.add('fa-minus');
+            }
+        }
     </script>
+
 </body>
 </html>
